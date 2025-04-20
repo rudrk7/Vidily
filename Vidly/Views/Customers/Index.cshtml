@@ -4,24 +4,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    table.custom-table > thead > tr > th {
+        background-color: var(--bs-primary);
+        color: white;
+    }
+
+</style>
+
 <h2>Customers</h2>
+<div class="mt-2 mb-1">
+    @Html.ActionLink("New Customer", "New", "Customers", null, new { @class =  "btn btn-primary" })
+</div>
 @if (!@Model.Any())
 {
     <p>We don't have any customers yet.</p>
 }
 else
 {
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover custom-table">
         <thead>
             <tr>
                 <th>Customer</th>
+                @*<th>Discount Rate</th>*@
+                <th>Membership Type</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var customer in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.Id }, null)</td>
+                    @*<td>@Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.Id }, null)</td>*@
+                    <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
+                    @*<td>@customer.MembershipType.DiscountRate%</td>*@
+                    <td>@customer.MembershipType.Name</td>
                 </tr>
             }
         </tbody>

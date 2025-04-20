@@ -1,0 +1,69 @@
+﻿@model Vidly.ViewModels.CustomerFormViewModel
+@{
+    ViewBag.Title = @Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Customers"))
+{
+    @Html.ValidationSummary(true, "Please fill all the required fields.", new { @class = "alert alert-danger" })
+    <div class="form-group mb-1">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="form-group mb-2">
+        @Html.LabelFor(m => m.MembershipTypeId)
+        @Html.DropDownListFor(m => m.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control form-select" })
+        @Html.ValidationMessageFor(m => m.MembershipTypeId)
+    </div>
+    <div class="form-group mb-1">
+        @Html.LabelFor(m => m.BirthDate)
+        @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+        @Html.ValidationMessageFor(m => m.BirthDate)
+    </div>
+    <div class="checkbox mb-2">
+        <label>
+            @Html.CheckBoxFor(m => m.IsSubscribedToNewsletter) Subscribed to Newsletter?
+        </label>
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    <div class="d-flex justify-content-start">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mt-3">
+            <strong>Validation Errors:</strong>
+            <ul>
+                @foreach (var kvp in ViewData.ModelState)
+                {
+                    foreach (var error in kvp.Value.Errors)
+                    {
+                        <li><strong>@kvp.Key:</strong> @error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }*@
